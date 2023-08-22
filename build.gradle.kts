@@ -19,7 +19,10 @@ repositories {
 }
 
 dependencies {
-	//implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	// https://mvnrepository.com/artifact/org.postgresql/postgresql
+	implementation("org.postgresql:postgresql:42.6.0")
+
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation(kotlin("stdlib-jdk8"))

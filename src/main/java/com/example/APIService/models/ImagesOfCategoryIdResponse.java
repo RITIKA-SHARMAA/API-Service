@@ -1,21 +1,24 @@
 package com.example.APIService.models;
 
+import com.example.APIService.repo.pojo.CategoryImagePojo;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class ImagesOfCategoryIdResponse {
 
-    ArrayList<CatModel1> imageList;
+    List<CategoryImagePojo> imageList;
 
-    public ImagesOfCategoryIdResponse(ArrayList<CatModel1> resposeAL) {
+    public ImagesOfCategoryIdResponse(List<CategoryImagePojo> resposeAL) {
         this.imageList = resposeAL;
 
     }
 
-    public ArrayList<CatModel1> getImageList() {
+    public List<CategoryImagePojo> getImageList() {
         return imageList;
     }
 
-    public void setImageList(ArrayList<CatModel1> imageList) {
+    public void setImageList(List<CategoryImagePojo> imageList) {
         this.imageList = imageList;
     }
 }

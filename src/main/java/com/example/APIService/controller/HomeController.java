@@ -1,17 +1,23 @@
 package com.example.APIService.controller;
 
 import com.example.APIService.models.*;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.APIService.repo.CategoryImageRepo;
+import com.example.APIService.repo.CategoryRepo;
+import com.example.APIService.repo.pojo.CategoryImagePojo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 @RestController
 public class HomeController {
+
+
+    @Autowired
+    CategoryRepo categoryRepo;
+    @Autowired
+    CategoryImageRepo categoryImageRepo;
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getTitle")
@@ -29,28 +35,14 @@ public class HomeController {
     @CrossOrigin(origins = "http://localhost:3000" )
     @GetMapping("/getCategories")
     public CategoriesResponse getCategories (){
-
-       ArrayList<CatModel> catModelArrayList = new ArrayList<>();
-       catModelArrayList.add(new CatModel("Water Color","https://img.freepik.com/premium-vector/beautiful-watercolor-painting-against-this-background-bright-radiance-sun-cherry-blossoms-penetrating-darkness-bright-saturated-colors-generative-aicreativityvector-illustration_579956-3462.jpg?w=2000", 1));
-        catModelArrayList.add(new CatModel("Sketch","https://5.imimg.com/data5/SELLER/Default/2022/4/NC/WR/PC/130288946/whatsapp-image-2022-01-24-at-7-32-40-am-2--500x500.jpeg", 2));
-        catModelArrayList.add(new CatModel("Anime","https://i2.wp.com/i.imgur.com/C4EKjFB.jpg", 3));
-        catModelArrayList.add(new CatModel("Water Color","https://img.freepik.com/premium-vector/beautiful-watercolor-painting-against-this-background-bright-radiance-sun-cherry-blossoms-penetrating-darkness-bright-saturated-colors-generative-aicreativityvector-illustration_579956-3462.jpg?w=2000", 1));
-        catModelArrayList.add(new CatModel("Sketch","https://5.imimg.com/data5/SELLER/Default/2022/4/NC/WR/PC/130288946/whatsapp-image-2022-01-24-at-7-32-40-am-2--500x500.jpeg", 2));
-        catModelArrayList.add(new CatModel("Anime","https://i2.wp.com/i.imgur.com/C4EKjFB.jpg", 3));
-        catModelArrayList.add(new CatModel("Water Color","https://img.freepik.com/premium-vector/beautiful-watercolor-painting-against-this-background-bright-radiance-sun-cherry-blossoms-penetrating-darkness-bright-saturated-colors-generative-aicreativityvector-illustration_579956-3462.jpg?w=2000", 1));
-        catModelArrayList.add(new CatModel("Sketch","https://5.imimg.com/data5/SELLER/Default/2022/4/NC/WR/PC/130288946/whatsapp-image-2022-01-24-at-7-32-40-am-2--500x500.jpeg", 2));
-        catModelArrayList.add(new CatModel("Anime","https://i2.wp.com/i.imgur.com/C4EKjFB.jpg", 3));
-        catModelArrayList.add(new CatModel("Water Color","https://img.freepik.com/premium-vector/beautiful-watercolor-painting-against-this-background-bright-radiance-sun-cherry-blossoms-penetrating-darkness-bright-saturated-colors-generative-aicreativityvector-illustration_579956-3462.jpg?w=2000", 1));
-        catModelArrayList.add(new CatModel("Sketch","https://5.imimg.com/data5/SELLER/Default/2022/4/NC/WR/PC/130288946/whatsapp-image-2022-01-24-at-7-32-40-am-2--500x500.jpeg", 2));
-        catModelArrayList.add(new CatModel("Anime","https://i2.wp.com/i.imgur.com/C4EKjFB.jpg", 3));
-        return new CategoriesResponse(catModelArrayList);
-
+        return new CategoriesResponse(categoryRepo.findAll());
     }
 
 
     @CrossOrigin(origins = "http://localhost:3000" )
     @GetMapping("/getImagesOfCategoryId")
     public ImagesOfCategoryIdResponse getImagesOfCategoryId (@RequestParam(value = "catId",defaultValue = "1") int catId) {
+/*
 
         ArrayList<CatModel1> cat1ModelArrayList = new ArrayList<>();
         cat1ModelArrayList.add(new CatModel1("Water Color", "https://img.freepik.com/premium-vector/beautiful-watercolor-painting-against-this-background-bright-radiance-sun-cherry-blossoms-penetrating-darkness-bright-saturated-colors-generative-aicreativityvector-illustration_579956-3462.jpg?w=2000","Ritika ",1));
@@ -73,10 +65,18 @@ public class HomeController {
         map.put(3,cat3ModelArrayList);
         ArrayList<CatModel1> responseAL = map.get(catId);
 
-        return  new ImagesOfCategoryIdResponse(responseAL);
+                return  new ImagesOfCategoryIdResponse(responseAL);
+
+*/
+        return  new ImagesOfCategoryIdResponse(categoryImageRepo.findByCatId(catId));
+
 
     }
-
+    @CrossOrigin(origins = "http://localhost:3000" )
+    @PostMapping("/addImagesOfCategoryId")
+    public CategoryImagePojo addImagesOfCategoryId (@RequestBody CategoryImagePojo categoryImagePojo) {
+return categoryImageRepo.save(categoryImagePojo);
+    }
 
     static class Response{
         String title;
